@@ -1,59 +1,131 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Corporate Project Submission System (DB_QPRI)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistem Web Aplikasi untuk manajemen pengajuan, peninjauan, dan persetujuan proyek perusahaan (Corporate Project Submission). Aplikasi ini dirancang untuk mempermudah alur kerja antara **Maker** (Pengaju) dan **Admin** (Manajemen) dengan sistem kontrol akses berbasis peran (Role-Based Access Control).
 
-## About Laravel
+## 🚀 Fitur Utama
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 1. Multi-Role Authentication
+Sistem membedakan akses antara dua peran utama:
+*   **Maker (Pengaju)**: Karyawan yang membuat dan mengajukan proposal proyek.
+*   **Admin (Manajemen)**: Group Head atau Manajer yang meninjau dan memberikan persetujuan.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 2. Alur Kerja Pengajuan (Submission Workflow)
+*   **Draft**: Maker dapat menyimpan progres pengajuan sebagai draft sebelum disubmit.
+*   **Submission**: Maker mengirimkan pengajuan untuk ditinjau.
+*   **Review**: Admin dapat melihat detail pengajuan yang masuk.
+*   **Approval/Rejection**: Admin memberikan keputusan (Approve/Reject) terhadap pengajuan.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 3. Dashboard Interaktif
+*   **Maker Dashboard**: Menampilkan daftar proyek milik sendiri beserta status terkini.
+*   **Management Dashboard**: Pusat kontrol bagi Admin untuk melihat antrean persetujuan (Waiting Approval).
 
-## Learning Laravel
+### 4. Keamanan & Validasi
+*   Proteksi rute (Route Protection) untuk mencegah akses tidak sah (misal: Maker tidak bisa akses menu Admin).
+*   Validasi data input yang ketat untk memastikan kelengkapan dokumen proyek.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🛠️ Teknologi yang Digunakan
 
-## Laravel Sponsors
+*   **Framework Backend**: [Laravel 12](https://laravel.com)
+*   **Bahasa Pemrograman**: PHP > 8.2
+*   **Frontend**: Blade Templates
+*   **Database**: MySQL
+*   **Styling**: Vanilla CSS / Custom Design System (Premium UI)
+*   **Build Tool**: Vite
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## ⚙️ Instalasi & Pengaturan
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Ikuti langkah-langkah berikut untuk menjalankan proyek di komputer lokal:
 
-## Contributing
+### Prasyarat
+*   PHP >= 8.2
+*   Composer
+*   Node.js & NPM
+*   MySQL Database
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Langkah Instalasi
 
-## Code of Conduct
+1.  **Clone Repositori**
+    ```bash
+    git clone [https://github.com/username/db-qpri.git](https://github.com/username/db-qpri.git)
+    cd db-qpri
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2.  **Instal Dependensi PHP (Composer)**
+    ```bash
+    composer install
+    ```
 
-## Security Vulnerabilities
+3.  **Instal Dependensi Frontend (NPM)**
+    ```bash
+    npm install
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+4.  **Konfigurasi Environment**
+    Salin file `.env.example` menjadi `.env`:
+    ```bash
+    cp .env.example .env
+    ```
+    Buka file `.env` dan sesuaikan koneksi database Anda:
+    ```env
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=nama_database_anda
+    DB_USERNAME=root
+    DB_PASSWORD=
+    ```
 
-## License
+5.  **Generate Application Key**
+    ```bash
+    php artisan key:generate
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+6.  **Migrasi Database & Seeding**
+    Jalankan perintah ini untuk membuat tabel dan data awal (Role, Status, User default):
+    ```bash
+    php artisan migrate --seed
+    ```
+
+7.  **Jalankan Aplikasi**
+    Buka dua terminal terpisah untuk menjalankan server Laravel dan Vite:
+    ```bash
+    # Terminal 1
+    php artisan serve
+
+    # Terminal 2
+    npm run dev
+    ```
+
+    Akses aplikasi di: `http://localhost:8000`
+
+---
+
+## 📖 Panduan Penggunaan
+
+### Akun Demo (Jika Menggunakan Seeder)
+*   **Login Admin**:
+    *   Email: `admin@example.com`
+    *   Password: `password`
+*   **Login Maker**:
+    *   Email: `maker@example.com`
+    *   Password: `password`
+
+### Alur Singkat
+1.  Login sebagai **Maker**.
+2.  Klik tombol **"Buat Pengajuan"**.
+3.  Isi formulir detail proyek (Judul, Tipe, Detail Anggaran, dll).
+4.  Klik **Simpan Draft** atau langsung **Submit**.
+5.  Login sebagai **Admin**.
+6.  Masuk ke menu **Management**.
+7.  Lihat daftar pengajuan dengan status `Submitted`.
+8.  Buka detail dan pilih **Approve** atau **Reject**.
+
+---
+
+## 📝 Lisensi
+
+Proyek ini bersifat open-source dan dilisensikan di bawah [MIT license](https://opensource.org/licenses/MIT).
