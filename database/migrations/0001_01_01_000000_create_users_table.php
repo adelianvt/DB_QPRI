@@ -13,8 +13,15 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+
             $table->string('name');
+
+            // NIP / userId UIMNG kamu simpan di sini (contoh: D565, B316)
             $table->string('email')->unique();
+
+            // role string: maker / approver / administrator / approver2
+            $table->string('role')->default('maker');
+
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

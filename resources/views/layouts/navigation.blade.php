@@ -1,0 +1,1 @@
+{{-- DISABLE Breeze navigation (pakai sidebar custom components/sidebar.blade.php) --}}

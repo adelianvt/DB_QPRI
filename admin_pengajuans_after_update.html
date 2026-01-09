@@ -1,0 +1,583 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q-PRI Management Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+    
+    body { font-family: 'Inter', sans-serif; }
+    .hover-lift { transition: transform 200ms ease-in, background-color 200ms ease-in; }
+    .hover-lift:hover { transform: translateY(-2px); }
+  </style>
+</head>
+<body class="bg-gray-50">
+
+  <!-- Sidebar -->
+  <aside class="fixed top-0 left-0 h-screen w-52 bg-indigo-600 z-50 flex flex-col">
+    <div class="p-6 flex items-center gap-3 border-b border-white/20">
+      <img src="https://c.animaapp.com/mipn4032XFRrnG/img/ai_1.png" alt="Logo" width="40" height="40" class="rounded-full">
+      <span class="text-white text-xl font-semibold">Q-PRI</span>
+    </div>
+    
+    <div class="flex-1 p-4">
+      <div class="flex items-center justify-center mb-6">
+        <img src="https://c.animaapp.com/mipn4032XFRrnG/img/ai_1.png" alt="User avatar" width="60" height="60" class="rounded-full">
+      </div>
+      <p class="text-white text-center font-medium mb-8">Jane Admin</p>
+      
+      <nav>
+        <ul class="space-y-2">
+          <li>
+            <a href="http://localhost:8000/dashboard" class="flex items-center gap-3 px-4 py-3 text-white hover:bg-white/10 rounded-lg transition">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="http://localhost:8000/admin/pengajuans" class="flex items-center gap-3 px-4 py-3 text-white bg-white/20 rounded-lg">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="8.5" cy="7" r="4"></circle>
+                <line x1="20" y1="8" x2="20" y2="14"></line>
+                <line x1="23" y1="11" x2="17" y2="11"></line>
+              </svg>
+              <span>Management</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-white hover:bg-white/10 rounded-lg transition">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              <span>Information</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    
+    <div class="p-4 border-t border-white/20">
+      <form method="POST" action="http://localhost:8000/logout"><input type="hidden" name="_token" value="6v2d60gM0wBwsHjXm4j9JGg3zpHmSBaasfMtwISJ" autocomplete="off">        <button class="flex items-center gap-3 px-4 py-3 text-white hover:bg-white/10 rounded-lg transition w-full">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Log out</span>
+        </button>
+      </form>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="ml-52">
+    <!-- Top Navbar -->
+    <header class="sticky top-0 bg-white border-b border-gray-200 z-40 px-8 py-4">
+      <div class="flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <img src="https://c.animaapp.com/mipn4032XFRrnG/img/ai_1.png" alt="Logo" width="32" height="32">
+          <span class="text-xl font-semibold text-gray-900">Q-PRI</span>
+        </div>
+        
+        <div class="flex-1 max-w-md mx-8">
+          <div class="relative">
+            <input type="search" placeholder="Search" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+          </div>
+        </div>
+        
+        <div class="relative">
+          <select class="pl-4 pr-10 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent appearance-none cursor-pointer">
+            <option>Type : All</option>
+            <option>Type A</option>
+            <option>Type B</option>
+            <option>Type C</option>
+          </select>
+          <svg class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+      </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <main class="p-8">
+      
+      <!-- Summary Cards -->
+      <section class="bg-white rounded-lg p-6 border border-gray-200 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center">
+              <svg class="text-indigo-600" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </div>
+            <div>
+              <p class="text-3xl font-semibold text-indigo-600">11</p>
+              <p class="text-sm text-gray-600">Total Project</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
+              <svg class="text-green-600" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div>
+              <p class="text-3xl font-semibold text-green-600">1</p>
+              <p class="text-sm text-gray-600">Approved</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center">
+              <svg class="text-yellow-600" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <div>
+              <p class="text-3xl font-semibold text-yellow-600">5</p>
+              <p class="text-sm text-gray-600">Waiting For Approval</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center">
+              <svg class="text-red-600" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </div>
+            <div>
+              <p class="text-3xl font-semibold text-red-600">0</p>
+              <p class="text-sm text-gray-600">Rejected</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects Table -->
+      <section class="bg-white rounded-lg overflow-hidden border border-gray-200 mb-8">
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead class="bg-indigo-600">
+              <tr>
+                <th class="px-6 py-4 text-left text-sm font-medium text-white">ID</th>
+                <th class="px-6 py-4 text-left text-sm font-medium text-white">Name</th>
+                <th class="px-6 py-4 text-left text-sm font-medium text-white">Pemilik</th>
+                <th class="px-6 py-4 text-left text-sm font-medium text-white">Type</th>
+                <th class="px-6 py-4 text-left text-sm font-medium text-white">Start Date</th>
+                <th class="px-6 py-4 text-left text-sm font-medium text-white">End Date</th>
+                <th class="px-6 py-4 text-left text-sm font-medium text-white">Status</th>
+                <th class="px-6 py-4 text-left text-sm font-medium text-white">Action</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                              <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 text-sm text-gray-900">11</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">tws</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">John Maker</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center justify-center w-52 px-4 py-1.5 rounded-full text-xs font-medium border 
+                       border-gray-600 text-gray-600 bg-gray-50 ">
+                      Draft
+                    </span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="relative inline-block">
+                      <button class="text-gray-600 hover:text-indigo-600 p-1 transition" onclick="toggleDropdown(event, 'dropdown-11')">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                          <circle cx="12" cy="5" r="2"></circle>
+                          <circle cx="12" cy="12" r="2"></circle>
+                          <circle cx="12" cy="19" r="2"></circle>
+                        </svg>
+                      </button>
+                      <div id="dropdown-11" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-lg border border-gray-200 shadow-lg z-10">
+                        <a href="http://localhost:8000/admin/pengajuans/11" class="w-full block px-4 py-2 text-left text-sm text-indigo-600 hover:bg-gray-50 flex items-center gap-2">View</a>
+                        <a href="#" class="w-full block px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">Edit</a>
+                        <form method="POST" action="#" class="w-full">
+                          <input type="hidden" name="_token" value="6v2d60gM0wBwsHjXm4j9JGg3zpHmSBaasfMtwISJ" autocomplete="off">                          <input type="hidden" name="_method" value="DELETE">                          <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center gap-2">Delete</button>
+                        </form>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                              <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 text-sm text-gray-900">10</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">E2E-VER-20251211132547-dc269dd6</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">John Maker</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center justify-center w-52 px-4 py-1.5 rounded-full text-xs font-medium border 
+                       border-yellow-600 text-yellow-600 bg-yellow-50
+                      ">
+                      Submitted
+                    </span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="relative inline-block">
+                      <button class="text-gray-600 hover:text-indigo-600 p-1 transition" onclick="toggleDropdown(event, 'dropdown-10')">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                          <circle cx="12" cy="5" r="2"></circle>
+                          <circle cx="12" cy="12" r="2"></circle>
+                          <circle cx="12" cy="19" r="2"></circle>
+                        </svg>
+                      </button>
+                      <div id="dropdown-10" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-lg border border-gray-200 shadow-lg z-10">
+                        <a href="http://localhost:8000/admin/pengajuans/10" class="w-full block px-4 py-2 text-left text-sm text-indigo-600 hover:bg-gray-50 flex items-center gap-2">View</a>
+                        <a href="#" class="w-full block px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">Edit</a>
+                        <form method="POST" action="#" class="w-full">
+                          <input type="hidden" name="_token" value="6v2d60gM0wBwsHjXm4j9JGg3zpHmSBaasfMtwISJ" autocomplete="off">                          <input type="hidden" name="_method" value="DELETE">                          <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center gap-2">Delete</button>
+                        </form>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                              <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 text-sm text-gray-900">9</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">123</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">John Maker</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center justify-center w-52 px-4 py-1.5 rounded-full text-xs font-medium border 
+                       border-yellow-600 text-yellow-600 bg-yellow-50
+                      ">
+                      Submitted
+                    </span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="relative inline-block">
+                      <button class="text-gray-600 hover:text-indigo-600 p-1 transition" onclick="toggleDropdown(event, 'dropdown-9')">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                          <circle cx="12" cy="5" r="2"></circle>
+                          <circle cx="12" cy="12" r="2"></circle>
+                          <circle cx="12" cy="19" r="2"></circle>
+                        </svg>
+                      </button>
+                      <div id="dropdown-9" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-lg border border-gray-200 shadow-lg z-10">
+                        <a href="http://localhost:8000/admin/pengajuans/9" class="w-full block px-4 py-2 text-left text-sm text-indigo-600 hover:bg-gray-50 flex items-center gap-2">View</a>
+                        <a href="#" class="w-full block px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">Edit</a>
+                        <form method="POST" action="#" class="w-full">
+                          <input type="hidden" name="_token" value="6v2d60gM0wBwsHjXm4j9JGg3zpHmSBaasfMtwISJ" autocomplete="off">                          <input type="hidden" name="_method" value="DELETE">                          <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center gap-2">Delete</button>
+                        </form>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                              <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 text-sm text-gray-900">8</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">testing</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">John Maker</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center justify-center w-52 px-4 py-1.5 rounded-full text-xs font-medium border 
+                       border-yellow-600 text-yellow-600 bg-yellow-50
+                      ">
+                      Submitted
+                    </span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="relative inline-block">
+                      <button class="text-gray-600 hover:text-indigo-600 p-1 transition" onclick="toggleDropdown(event, 'dropdown-8')">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                          <circle cx="12" cy="5" r="2"></circle>
+                          <circle cx="12" cy="12" r="2"></circle>
+                          <circle cx="12" cy="19" r="2"></circle>
+                        </svg>
+                      </button>
+                      <div id="dropdown-8" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-lg border border-gray-200 shadow-lg z-10">
+                        <a href="http://localhost:8000/admin/pengajuans/8" class="w-full block px-4 py-2 text-left text-sm text-indigo-600 hover:bg-gray-50 flex items-center gap-2">View</a>
+                        <a href="#" class="w-full block px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">Edit</a>
+                        <form method="POST" action="#" class="w-full">
+                          <input type="hidden" name="_token" value="6v2d60gM0wBwsHjXm4j9JGg3zpHmSBaasfMtwISJ" autocomplete="off">                          <input type="hidden" name="_method" value="DELETE">                          <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center gap-2">Delete</button>
+                        </form>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                              <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 text-sm text-gray-900">7</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">test</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">John Maker</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center justify-center w-52 px-4 py-1.5 rounded-full text-xs font-medium border 
+                       border-gray-600 text-gray-600 bg-gray-50 ">
+                      Draft
+                    </span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="relative inline-block">
+                      <button class="text-gray-600 hover:text-indigo-600 p-1 transition" onclick="toggleDropdown(event, 'dropdown-7')">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                          <circle cx="12" cy="5" r="2"></circle>
+                          <circle cx="12" cy="12" r="2"></circle>
+                          <circle cx="12" cy="19" r="2"></circle>
+                        </svg>
+                      </button>
+                      <div id="dropdown-7" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-lg border border-gray-200 shadow-lg z-10">
+                        <a href="http://localhost:8000/admin/pengajuans/7" class="w-full block px-4 py-2 text-left text-sm text-indigo-600 hover:bg-gray-50 flex items-center gap-2">View</a>
+                        <a href="#" class="w-full block px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">Edit</a>
+                        <form method="POST" action="#" class="w-full">
+                          <input type="hidden" name="_token" value="6v2d60gM0wBwsHjXm4j9JGg3zpHmSBaasfMtwISJ" autocomplete="off">                          <input type="hidden" name="_method" value="DELETE">                          <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center gap-2">Delete</button>
+                        </form>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                              <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 text-sm text-gray-900">6</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">test maker</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">Bob Approver</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center justify-center w-52 px-4 py-1.5 rounded-full text-xs font-medium border 
+                       border-gray-600 text-gray-600 bg-gray-50 ">
+                      Draft
+                    </span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="relative inline-block">
+                      <button class="text-gray-600 hover:text-indigo-600 p-1 transition" onclick="toggleDropdown(event, 'dropdown-6')">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                          <circle cx="12" cy="5" r="2"></circle>
+                          <circle cx="12" cy="12" r="2"></circle>
+                          <circle cx="12" cy="19" r="2"></circle>
+                        </svg>
+                      </button>
+                      <div id="dropdown-6" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-lg border border-gray-200 shadow-lg z-10">
+                        <a href="http://localhost:8000/admin/pengajuans/6" class="w-full block px-4 py-2 text-left text-sm text-indigo-600 hover:bg-gray-50 flex items-center gap-2">View</a>
+                        <a href="#" class="w-full block px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">Edit</a>
+                        <form method="POST" action="#" class="w-full">
+                          <input type="hidden" name="_token" value="6v2d60gM0wBwsHjXm4j9JGg3zpHmSBaasfMtwISJ" autocomplete="off">                          <input type="hidden" name="_method" value="DELETE">                          <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center gap-2">Delete</button>
+                        </form>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                              <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 text-sm text-gray-900">5</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">pkl</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">Jacquelyn Jacobi MD</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">pengadaan</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center justify-center w-52 px-4 py-1.5 rounded-full text-xs font-medium border 
+                       border-yellow-600 text-yellow-600 bg-yellow-50
+                      ">
+                      Submitted
+                    </span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="relative inline-block">
+                      <button class="text-gray-600 hover:text-indigo-600 p-1 transition" onclick="toggleDropdown(event, 'dropdown-5')">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                          <circle cx="12" cy="5" r="2"></circle>
+                          <circle cx="12" cy="12" r="2"></circle>
+                          <circle cx="12" cy="19" r="2"></circle>
+                        </svg>
+                      </button>
+                      <div id="dropdown-5" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-lg border border-gray-200 shadow-lg z-10">
+                        <a href="http://localhost:8000/admin/pengajuans/5" class="w-full block px-4 py-2 text-left text-sm text-indigo-600 hover:bg-gray-50 flex items-center gap-2">View</a>
+                        <a href="#" class="w-full block px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">Edit</a>
+                        <form method="POST" action="#" class="w-full">
+                          <input type="hidden" name="_token" value="6v2d60gM0wBwsHjXm4j9JGg3zpHmSBaasfMtwISJ" autocomplete="off">                          <input type="hidden" name="_method" value="DELETE">                          <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center gap-2">Delete</button>
+                        </form>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                              <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 text-sm text-gray-900">4</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">q</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">Jacquelyn Jacobi MD</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">internal</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center justify-center w-52 px-4 py-1.5 rounded-full text-xs font-medium border 
+                       border-gray-600 text-gray-600 bg-gray-50 ">
+                      Draft
+                    </span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="relative inline-block">
+                      <button class="text-gray-600 hover:text-indigo-600 p-1 transition" onclick="toggleDropdown(event, 'dropdown-4')">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                          <circle cx="12" cy="5" r="2"></circle>
+                          <circle cx="12" cy="12" r="2"></circle>
+                          <circle cx="12" cy="19" r="2"></circle>
+                        </svg>
+                      </button>
+                      <div id="dropdown-4" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-lg border border-gray-200 shadow-lg z-10">
+                        <a href="http://localhost:8000/admin/pengajuans/4" class="w-full block px-4 py-2 text-left text-sm text-indigo-600 hover:bg-gray-50 flex items-center gap-2">View</a>
+                        <a href="#" class="w-full block px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">Edit</a>
+                        <form method="POST" action="#" class="w-full">
+                          <input type="hidden" name="_token" value="6v2d60gM0wBwsHjXm4j9JGg3zpHmSBaasfMtwISJ" autocomplete="off">                          <input type="hidden" name="_method" value="DELETE">                          <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center gap-2">Delete</button>
+                        </form>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                              <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 text-sm text-gray-900">3</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">Automated PJ 594672</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">Jacquelyn Jacobi MD</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">internal</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center justify-center w-52 px-4 py-1.5 rounded-full text-xs font-medium border 
+                       border-gray-600 text-gray-600 bg-gray-50 ">
+                      Draft
+                    </span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="relative inline-block">
+                      <button class="text-gray-600 hover:text-indigo-600 p-1 transition" onclick="toggleDropdown(event, 'dropdown-3')">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                          <circle cx="12" cy="5" r="2"></circle>
+                          <circle cx="12" cy="12" r="2"></circle>
+                          <circle cx="12" cy="19" r="2"></circle>
+                        </svg>
+                      </button>
+                      <div id="dropdown-3" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-lg border border-gray-200 shadow-lg z-10">
+                        <a href="http://localhost:8000/admin/pengajuans/3" class="w-full block px-4 py-2 text-left text-sm text-indigo-600 hover:bg-gray-50 flex items-center gap-2">View</a>
+                        <a href="#" class="w-full block px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">Edit</a>
+                        <form method="POST" action="#" class="w-full">
+                          <input type="hidden" name="_token" value="6v2d60gM0wBwsHjXm4j9JGg3zpHmSBaasfMtwISJ" autocomplete="off">                          <input type="hidden" name="_method" value="DELETE">                          <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center gap-2">Delete</button>
+                        </form>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                              <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 text-sm text-gray-900">2</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">abcd</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">Jacquelyn Jacobi MD</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">2000-06-25</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">2000-07-26</td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center justify-center w-52 px-4 py-1.5 rounded-full text-xs font-medium border 
+                       border-yellow-600 text-yellow-600 bg-yellow-50
+                      ">
+                      Submitted
+                    </span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="relative inline-block">
+                      <button class="text-gray-600 hover:text-indigo-600 p-1 transition" onclick="toggleDropdown(event, 'dropdown-2')">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                          <circle cx="12" cy="5" r="2"></circle>
+                          <circle cx="12" cy="12" r="2"></circle>
+                          <circle cx="12" cy="19" r="2"></circle>
+                        </svg>
+                      </button>
+                      <div id="dropdown-2" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-lg border border-gray-200 shadow-lg z-10">
+                        <a href="http://localhost:8000/admin/pengajuans/2" class="w-full block px-4 py-2 text-left text-sm text-indigo-600 hover:bg-gray-50 flex items-center gap-2">View</a>
+                        <a href="#" class="w-full block px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">Edit</a>
+                        <form method="POST" action="#" class="w-full">
+                          <input type="hidden" name="_token" value="6v2d60gM0wBwsHjXm4j9JGg3zpHmSBaasfMtwISJ" autocomplete="off">                          <input type="hidden" name="_method" value="DELETE">                          <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center gap-2">Delete</button>
+                        </form>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                              <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 text-sm text-gray-900">1</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">Project Pertama QPRI</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">Maker Test</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">2025-12-15</td>
+                  <td class="px-6 py-4 text-sm text-gray-900">2025-12-31</td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center justify-center w-52 px-4 py-1.5 rounded-full text-xs font-medium border 
+                       border-green-600 text-green-600 bg-green-50
+                      ">
+                      Approved
+                    </span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="relative inline-block">
+                      <button class="text-gray-600 hover:text-indigo-600 p-1 transition" onclick="toggleDropdown(event, 'dropdown-1')">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                          <circle cx="12" cy="5" r="2"></circle>
+                          <circle cx="12" cy="12" r="2"></circle>
+                          <circle cx="12" cy="19" r="2"></circle>
+                        </svg>
+                      </button>
+                      <div id="dropdown-1" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-lg border border-gray-200 shadow-lg z-10">
+                        <a href="http://localhost:8000/admin/pengajuans/1" class="w-full block px-4 py-2 text-left text-sm text-indigo-600 hover:bg-gray-50 flex items-center gap-2">View</a>
+                        <a href="#" class="w-full block px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">Edit</a>
+                        <form method="POST" action="#" class="w-full">
+                          <input type="hidden" name="_token" value="6v2d60gM0wBwsHjXm4j9JGg3zpHmSBaasfMtwISJ" autocomplete="off">                          <input type="hidden" name="_method" value="DELETE">                          <button class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center gap-2">Delete</button>
+                        </form>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                          </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Pagination -->
+      <div class="flex items-center justify-center gap-2 py-8">
+        
+      </div>
+    </main>
+  </div>
+
+  <!-- Floating Download Button -->
+  <button class="fixed bottom-8 right-8 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition flex items-center gap-2 z-50 shadow-lg">
+    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+      <polyline points="7 10 12 15 17 10"></polyline>
+      <line x1="12" y1="15" x2="12" y2="3"></line>
+    </svg>
+    Download
+  </button>
+
+  <script>
+    function toggleDropdown(event, dropdownId) {
+      event.stopPropagation();
+      const dropdown = document.getElementById(dropdownId);
+      const allDropdowns = document.querySelectorAll('[id^="dropdown-"]');
+      allDropdowns.forEach(d => { if (d.id !== dropdownId) d.classList.add('hidden'); });
+      dropdown.classList.toggle('hidden');
+    }
+    document.addEventListener('click', () => { document.querySelectorAll('[id^="dropdown-"]').forEach(d => d.classList.add('hidden')); });
+  </script>
+</body>
+</html>
+

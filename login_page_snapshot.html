@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laravel - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(180deg, #f8f9fa 0%, #e3e8f0 50%, #d4dff5 100%); }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-md">
+        <!-- Login Card -->
+        <div class="bg-indigo-50/60 backdrop-blur-sm border-2 border-dashed border-indigo-300 rounded-2xl p-8 shadow-lg">
+      
+            <!-- Header -->
+            <div class="mb-6">
+                <h2 class="text-center text-xl font-semibold text-gray-700 mb-1">Login</h2>
+            </div>
+
+            <!-- Session Status -->
+            
+            <!-- Validation Errors -->
+            
+            <!-- Form -->
+            <form method="POST" action="http://localhost:8000/login" class="space-y-6">
+                <input type="hidden" name="_token" value="T0LZRnOR7NcFYg9DzCzJSkAWpVy8zyQpdteQLSMg" autocomplete="off">
+                <!-- NIP (mapped to email for default auth) -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">NIP</label>
+                    <input 
+                        id="email"
+                        name="email"
+                        type="text"
+                        value=""
+                        placeholder="Type here"
+                        required
+                        autofocus
+                        class="w-full px-4 py-3 bg-white border-2 border-indigo-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-700 placeholder-gray-400"
+                    >
+                                            <p class="mt-2 text-xs text-gray-500">Assistive Text</p>
+                                    </div>
+
+                <!-- Password Field -->
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <input 
+                        id="password"
+                        name="password"
+                        type="password"
+                        placeholder="Typing |"
+                        required
+                        class="w-full px-4 py-3 bg-white border-2 border-indigo-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-700 placeholder-gray-400"
+                    >
+                    
+                    <div class="mt-2 text-right">
+                                                    <a href="http://localhost:8000/forgot-password" class="text-xs text-gray-500 hover:text-indigo-600 transition">Forgot password ?</a>
+                                            </div>
+                </div>
+
+                <!-- Login Button -->
+                <div class="pt-2">
+                    <button 
+                        type="submit"
+                        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg"
+                    >
+                        Login
+                    </button>
+                </div>
+
+            </form>
+
+            <!-- Optional Register Link -->
+                            <div class="text-center mt-6">
+                    <p class="text-gray-600 text-sm">Don't have an account? <a href="http://localhost:8000/register" class="text-indigo-600 font-medium hover:text-indigo-800">Register here</a></p>
+                </div>
+            
+        </div>
+    </div>
+
+</body>
+</html>
+

@@ -1,0 +1,343 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulir Registrasi Project</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-[#407BFF] min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white px-6 py-4 shadow-lg">
+      <div class="flex items-center justify-center relative">
+        <a href="http://localhost:8000/dashboard" class="absolute left-6 p-2 hover:bg-blue-700 rounded-lg transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        </a>
+        <h1 class="text-xl font-semibold">FORMULIR REGISTRASI PROJECT</h1>
+      </div>
+    </header>
+
+    <!-- PAGE CONTENT -->
+    <main class="bg-[#F5F7FB] min-h-[calc(100vh-56px)]">
+      <div class="max-w-4xl mx-auto py-10 px-4">
+
+        <!-- FORM START -->
+         <form id="projectForm" method="POST" action="http://localhost:8000/pengajuans" class="space-y-6">
+          <input type="hidden" name="_token" value="12szbewddpHM9yuWiNK371YwKT3zIx7jhMYpijvx" autocomplete="off">
+          
+          <!-- Nama Project -->
+          <div class="bg-white rounded-lg shadow-sm p-6">
+            <label class="block text-xs font-semibold">
+              Pengajuan Nama Project <span class="text-red-500">*</span>
+            </label>
+            <input
+              id="projectName"
+              name="judul"
+              type="text"
+              class="w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#407BFF]"
+              placeholder="Nama Project"
+              value=""
+              required
+            >
+          </div>
+
+          <!-- Deskripsi -->
+          <div class="bg-white rounded-lg shadow-sm p-6">
+            <label class="block text-xs font-semibold">Deskripsi <span class="text-red-500">*</span></label>
+            <textarea name="deskripsi" rows="4" class="w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#407BFF]" placeholder="Deskripsikan secara singkat tujuan project" required></textarea>
+          </div>
+
+          <!-- Divisi -->
+          <div class="bg-white rounded-lg shadow-sm p-6">
+            <label class="block text-xs font-semibold">Divisi Yang Menginisiasikan <span class="text-red-500">*</span></label>
+            <select id="divisionSelect" name="divisi" class="w-full border border-[#407BFF] px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#407BFF]">
+              <option value="">Pilih Divisi</option>
+              <option >Divisi Human Capital</option>
+              <option >Divisi 1</option>
+              <option >Divisi 2</option>
+            </select>
+          </div>
+
+          <!-- Tipe Project -->
+          <div class="bg-white rounded-lg shadow-sm p-6">
+            <p class="text-xs font-semibold">Tipe Project <span class="text-red-500">*</span></p>
+            <div class="mt-1 space-y-1 text-sm">
+              <label class="flex gap-2 items-center">
+                <input type="radio" name="tipe" value="internal" class="w-4 h-4 text-[#407BFF]" >
+                <span>Pengembangan Internal</span>
+              </label>
+              <label class="flex gap-2 items-center">
+                <input type="radio" name="tipe" value="pengadaan" class="w-4 h-4 text-[#407BFF]" >
+                <span>Pengadaan</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Grup Utama 1 -->
+          <div class="bg-white rounded-lg shadow-sm p-6">
+            <p class="text-xs font-semibold">Group Utama Pengembangan/Pengadaan <span class="text-red-500">*</span></p>
+            <div class="mt-1 border-2 border-dashed border-[#BFD2FF] px-4 py-3 rounded-lg space-y-1 text-sm bg-white">
+                                            <label class="flex gap-2"><input type="checkbox" name="groups[]" value="IT Architecture &amp; Governance" class="mt-0.5" > IT Architecture &amp; Governance</label>
+                              <label class="flex gap-2"><input type="checkbox" name="groups[]" value="Corporate Service" class="mt-0.5" > Corporate Service</label>
+                              <label class="flex gap-2"><input type="checkbox" name="groups[]" value="Application Management Management" class="mt-0.5" > Application Management Management</label>
+                              <label class="flex gap-2"><input type="checkbox" name="groups[]" value="Digital Business" class="mt-0.5" > Digital Business</label>
+                              <label class="flex gap-2"><input type="checkbox" name="groups[]" value="Business Intelligence, Analytics &amp; Regulatory" class="mt-0.5" > Business Intelligence, Analytics &amp; Regulatory</label>
+                              <label class="flex gap-2"><input type="checkbox" name="groups[]" value="Backend Management" class="mt-0.5" > Backend Management</label>
+                              <label class="flex gap-2"><input type="checkbox" name="groups[]" value="Helpdesk &amp; Support" class="mt-0.5" > Helpdesk &amp; Support</label>
+                              <label class="flex gap-2"><input type="checkbox" name="groups[]" value="Operation Management DC" class="mt-0.5" > Operation Management DC</label>
+                              <label class="flex gap-2"><input type="checkbox" name="groups[]" value="IT Security" class="mt-0.5" > IT Security</label>
+                          </div>
+          </div>
+
+          <!-- Contact Person (Auto-filled, Read-only) -->
+          <div class="bg-white rounded-lg shadow-sm p-6">
+            <h3 class="text-sm font-medium text-gray-700 mb-4">Contact Person (Grup User/Nama Group Penanggungjawab Pekerjaan) <span class="text-red-500">*</span></h3>
+            <div class="space-y-4">
+              <div>
+                <label for="contactName" class="block text-xs font-medium text-gray-600 mb-2">Nama</label>
+                <input type="text" id="contactName" name="contactName" readonly value="John Maker" class="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm text-gray-900 bg-gray-50">
+              </div>
+
+              <div>
+                <label for="contactPhone" class="block text-xs font-medium text-gray-600 mb-2">No Handphone</label>
+                <input type="tel" id="contactPhone" name="contactPhone" readonly value="+62 812-3005-543" class="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm text-gray-900 bg-gray-50">
+              </div>
+
+              <div>
+                <label for="contactEmail" class="block text-xs font-medium text-gray-600 mb-2">Email</label>
+                <input type="email" id="contactEmail" name="contactEmail" readonly value="maker@test.local" class="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm text-gray-900 bg-gray-50">
+              </div>
+            </div>
+          </div>
+
+          <!-- Grup Utama 2 (duplicate) -->
+          <div class="bg-white rounded-lg shadow-sm p-6">
+            <p class="text-xs font-semibold">Group Utama Pengembangan/Pengadaan <span class="text-red-500">*</span></p>
+            <div class="mt-1 border-2 border-dashed border-[#BFD2FF] px-4 py-3 rounded-lg space-y-1 text-sm bg-white">
+                              <label class="flex gap-2"><input type="checkbox" name="groups_secondary[]" value="IT Architecture &amp; Governance" class="mt-0.5" > IT Architecture &amp; Governance</label>
+                              <label class="flex gap-2"><input type="checkbox" name="groups_secondary[]" value="Corporate Service" class="mt-0.5" > Corporate Service</label>
+                              <label class="flex gap-2"><input type="checkbox" name="groups_secondary[]" value="Application Management Management" class="mt-0.5" > Application Management Management</label>
+                              <label class="flex gap-2"><input type="checkbox" name="groups_secondary[]" value="Digital Business" class="mt-0.5" > Digital Business</label>
+                              <label class="flex gap-2"><input type="checkbox" name="groups_secondary[]" value="Business Intelligence, Analytics &amp; Regulatory" class="mt-0.5" > Business Intelligence, Analytics &amp; Regulatory</label>
+                              <label class="flex gap-2"><input type="checkbox" name="groups_secondary[]" value="Backend Management" class="mt-0.5" > Backend Management</label>
+                              <label class="flex gap-2"><input type="checkbox" name="groups_secondary[]" value="Helpdesk &amp; Support" class="mt-0.5" > Helpdesk &amp; Support</label>
+                              <label class="flex gap-2"><input type="checkbox" name="groups_secondary[]" value="Operation Management DC" class="mt-0.5" > Operation Management DC</label>
+                              <label class="flex gap-2"><input type="checkbox" name="groups_secondary[]" value="IT Security" class="mt-0.5" > IT Security</label>
+                          </div>
+          </div>
+
+          <!-- Penyusun -->
+          <div class="bg-white rounded-lg shadow-sm p-6">
+            <p class="text-xs font-semibold">Nama Lengkap Penyusun Dokumen Pengembangan/Pengadaan <span class="text-red-500">*</span></p>
+            <div id="compilerWrapper" class="space-y-2">
+              <div id="compilerForm" class="space-y-2">
+                <!-- kosongkan dulu, nanti tambah lewat tombol -->
+              </div>
+              <button id="addRow" type="button" class="w-full rounded-md border bg-white px-4 py-2 text-gray-800 flex items-center gap-2">
+                <span class="w-6 h-6 rounded-full border flex items-center justify-center text-xl leading-none">+</span>
+                Tambah Penyusun
+              </button>
+            </div>
+          </div>
+
+          <!-- RBB USERS -->
+          <div class="bg-white rounded-lg shadow-sm p-6">
+            <p class="text-xs font-semibold">Program Kerja & Anggaran di RBB Divisi Users <span class="text-red-500">*</span></p>
+            <label class="block text-[11px] mt-2">Kode RBB</label>
+            <input type="text" name="rbb_users_code" class="rbb-code w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#407BFF]" placeholder="0.0.0.0" inputmode="numeric">
+
+            <label class="block text-[11px] mt-3">Nama Program Kerja</label>
+            <input type="text" name="rbb_users_name" class="w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#407BFF]">
+
+            <label class="block text-[11px] mt-3">Anggaran</label>
+            <input type="number" name="rbb_users_budget" class="w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#407BFF]">
+          </div>
+
+          <!-- IT TECH -->
+          <div class="bg-white rounded-lg shadow-sm p-6">
+            <p class="text-xs font-semibold">Program Kerja & Anggaran di RBB Divisi Information Technology <span class="text-red-500">*</span></p>
+            <label class="block text-[11px] mt-2">Kode RBB</label>
+            <input type="text" name="rbb_it_code" class="rbb-code w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#407BFF]" placeholder="0.0.0.0" inputmode="numeric">
+
+            <label class="block text-[11px] mt-3">Nama Program Kerja</label>
+            <input type="text" name="rbb_it_name" class="w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#407BFF]">
+
+            <label class="block text-[11px] mt-3">Bundling Anggaran</label>
+            <input type="number" name="rbb_it_bundling" class="w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#407BFF]">
+
+            <label class="block text-[11px] mt-3">Anggaran</label>
+            <input type="number" name="rbb_it_budget" class="w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#407BFF]">
+          </div>
+
+          <!-- FOOTER SIGNATURE -->
+          <div class="bg-white rounded-lg shadow-sm p-6 text-center text-[11px] text-gray-500">
+            <p>Bandung, Juni 2025</p>
+            <p>Diajukan oleh</p>
+            <p class="font-semibold">Group Head Utama Pengadaan</p>
+            <div class="w-64 h-32 mx-auto bg-[#BFD2FF] rounded-md mt-2"></div>
+          </div>
+
+          <!-- SUBMIT BUTTON -->
+          <div class="flex justify-center">
+            <button type="submit" class="px-8 py-2 bg-[#407BFF] text-white rounded-md text-sm font-medium hover:bg-[#2d5dd8]">Submit</button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <!-- POPUP KONFIRMASI (sebelum submit) -->
+    <div id="confirmPopup" class="hidden fixed inset-0 bg-black/30 flex items-center justify-center z-50">
+      <div class="bg-white rounded-xl shadow-lg px-8 py-6 text-center">
+        <p class="text-sm font-medium mb-4">Are You Sure You Want to submit This Project?</p>
+        <div class="flex justify-center gap-4">
+          <button id="confirmYes" class="px-4 py-1 bg-[#407BFF] text-white rounded-md text-sm hover:bg-[#2d5dd8]">Yes</button>
+          <button id="confirmNo" class="px-4 py-1 border rounded-md text-sm hover:bg-gray-100">No</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCRIPT -->
+    <script>
+      // candidates + compiler widget (untuk menambah penyusun)
+      const candidates = ['Anggie Septian', 'Nama', 'Nama'];
+      const compilerWrapper = document.getElementById('compilerWrapper');
+      const compilerForm = document.getElementById('compilerForm');
+      const addBtn = document.getElementById('addRow');
+
+      function createCombobox() {
+        const wrap = document.createElement('div');
+        wrap.className = 'space-y-1';
+
+        const box = document.createElement('div');
+        box.className = 'rounded-md border bg-white px-4 py-2 text-gray-800 flex items-center justify-between ring-1 ring-indigo-500';
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.placeholder = 'Anggie Septian';
+        input.className = 'flex-1 outline-none bg-transparent';
+        const chevron = document.createElement('button');
+        chevron.type = 'button';
+        chevron.textContent = '▴';
+        chevron.className = 'ml-2 text-gray-600';
+        box.appendChild(input);
+        box.appendChild(chevron);
+
+        const list = document.createElement('div');
+        list.className = 'rounded-md border bg-white shadow max-h-64 overflow-auto';
+        function render(filter) {
+          list.innerHTML = '';
+          candidates
+            .filter(n => !filter || n.toLowerCase().includes(filter.toLowerCase()))
+            .forEach((n, i) => {
+              const btn = document.createElement('button');
+              btn.type = 'button';
+              btn.className = 'w-full text-left px-4 py-2';
+              if (i === 0) btn.className += ' bg-indigo-500 text-white';
+              btn.textContent = n;
+              btn.addEventListener('click', () => select(n));
+              list.appendChild(btn);
+            });
+        }
+        function select(name) {
+          const row = document.createElement('div');
+          row.className = 'rounded-md border bg-white px-4 py-2 text-gray-800';
+          row.textContent = name;
+          const hidden = document.createElement('input');
+          hidden.type = 'hidden';
+          hidden.name = 'compiler_names[]';
+          hidden.value = name;
+          // replace the combobox widget with the chosen row
+          compilerWrapper.replaceChild(row, wrap);
+          // insert the hidden input before the add button
+          addBtn.parentNode.insertBefore(hidden, addBtn);
+        }
+
+        input.addEventListener('input', () => render(input.value));
+        chevron.addEventListener('click', () => {
+          list.classList.toggle('hidden');
+        });
+
+        render('');
+        wrap.appendChild(box);
+        wrap.appendChild(list);
+        return wrap;
+      }
+
+      if (addBtn) {
+        addBtn.addEventListener('click', () => {
+          const combo = createCombobox();
+          // insert combobox widget before the add button
+          addBtn.parentNode.insertBefore(combo, addBtn);
+        });
+      }
+
+      // AUTO FILL CONTACT PERSON (simulasi user login)
+      const loggedInUser = {
+        name: "John Maker",
+        phone: "+62 812-2005-343",
+        email: "maker@test.local"
+      };
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const elName = document.getElementById("contactName");
+        const elPhone = document.getElementById("contactPhone");
+        const elEmail = document.getElementById("contactEmail");
+        if (elName) elName.value = loggedInUser.name;
+        if (elPhone) elPhone.value = loggedInUser.phone;
+        if (elEmail) elEmail.value = loggedInUser.email;
+      });
+
+      // FORMAT KODE RBB → 0.0.0 (3 digit dengan titik otomatis)
+      function formatRbb(value) {
+        const digits = value.replace(/\D/g, "").slice(0, 4); // max 4 angka
+        return digits.split("").join("."); // 1.2.3.4
+      }
+
+      document.querySelectorAll(".rbb-code").forEach((input) => {
+        input.addEventListener("input", (e) => {
+          const cursorPos = e.target.selectionStart;
+          const oldLength = e.target.value.length;
+
+          e.target.value = formatRbb(e.target.value);
+
+          const newLength = e.target.value.length;
+          e.target.selectionEnd = cursorPos + (newLength - oldLength);
+        });
+      });
+
+      // SUBMIT → TAMPIL POPUP KONFIRMASI, YES → SUBMIT BENERAN
+      const projectForm = document.getElementById("projectForm");
+      const confirmPopup = document.getElementById("confirmPopup");
+      let isConfirmed = false;
+
+      if (projectForm) {
+        projectForm.addEventListener("submit", (e) => {
+          if (!isConfirmed) {
+            e.preventDefault();
+            confirmPopup.classList.remove("hidden");
+          }
+        });
+      }
+
+      const confirmYes = document.getElementById("confirmYes");
+      const confirmNo = document.getElementById("confirmNo");
+      if (confirmYes) {
+        confirmYes.addEventListener("click", () => {
+          isConfirmed = true;
+          confirmPopup.classList.add("hidden");
+          projectForm.submit();
+        });
+      }
+      if (confirmNo) {
+        confirmNo.addEventListener("click", () => {
+          isConfirmed = false;
+          confirmPopup.classList.add("hidden");
+        });
+      }
+    </script>
+  </body>
+</html>
+
