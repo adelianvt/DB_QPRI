@@ -29,7 +29,8 @@
       <div class="max-w-4xl mx-auto py-10 px-4">
 
         <!-- FORM START -->
-        <form id="projectForm" class="space-y-6" method="POST" action="{{ route('pengajuans.store') }}">
+        <form id="projectForm" class="space-y-6" method="POST"
+      action="{{ route('pengajuans.store') }}" novalidate>
           @csrf
 
           <!-- Nama Project -->
@@ -49,6 +50,7 @@
             @error('judul')
               <p class="text-xs text-red-600 mt-2">{{ $message }}</p>
             @enderror
+
           </div>
 
           <!-- Deskripsi (WAJIB supaya tidak null di DB) -->
@@ -107,32 +109,29 @@
             @enderror
           </div>
 
-          <!-- Grup Utama 1 -->
+ <!-- GROUP UTAMA 1 -->
           <div class="bg-white rounded-lg shadow-sm p-6">
-            <p class="text-xs font-semibold">
-              Group Utama Pengembangan/Pengadaan <span class="text-red-500">*</span>
-            </p>
-            <div class="mt-1 border-2 border-dashed border-[#BFD2FF] px-4 py-3 rounded-lg space-y-1 text-sm bg-white">
+            <p class="text-xs font-semibold">Group Utama <span class="text-red-500">*</span></p>
+            <div class="border-2 border-dashed px-4 py-3 rounded-lg text-sm">
               @php $oldG1 = old('group_utama', []); @endphp
-              @foreach([
-                'IT Architecture & Governance',
-                'Corporate Service',
-                'Application Management Management',
-                'Digital Business',
-                'Business Intelligence, Analytics & Regulatory',
-                'Backend Management',
-                'Helpdesk & Support',
-                'Operation Management DC',
-                'IT Security',
-              ] as $opt)
+              @foreach(['IT Architecture & Governance','Corporate Service','Application Management Management','Digital Business','Business Intelligence, Analytics & Regulatory','Backend Management','Helpdesk & Support','Operation Management DC','IT Security'] as $opt)
                 <label class="flex gap-2">
-                  <input type="checkbox" name="group_utama[]" value="{{ $opt }}" class="mt-0.5"
-                    {{ in_array($opt, $oldG1) ? 'checked' : '' }}>
+                  <input type="checkbox" name="group_utama[]" value="{{ $opt }}" {{ in_array($opt,$oldG1)?'checked':'' }}>
                   {{ $opt }}
                 </label>
               @endforeach
             </div>
+
+            {{-- ✅ FIX VALIDASI --}}
+            @error('group_utama')
+<p class="text-xs text-red-600 mt-2">{{ $message }}</p>
+@enderror
+@error('group_utama.0')
+<p class="text-xs text-red-600 mt-2">{{ $message }}</p>
+@enderror
+
           </div>
+
 
           <!-- ✅ Contact Person (WATERMARK TETAP - SESUAI GAMBAR) -->
           @php
@@ -155,7 +154,7 @@
                   readonly
                   value="{{ $wmName }}"
                   class="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm text-gray-900 bg-gray-50">
-                <input type="hidden" name="contact[name]" value="{{ $wmName }}">
+                <input type="hidden" name="contact[nama]" value="{{ $wmName }}">
               </div>
 
               <div>
@@ -166,7 +165,7 @@
                   readonly
                   value="{{ $wmPhone }}"
                   class="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm text-gray-900 bg-gray-50">
-                <input type="hidden" name="contact[phone]" value="{{ $wmPhone }}">
+                <input type="hidden" name="contact[hp]" value="{{ $wmPhone }}">
               </div>
 
               <div>
@@ -182,56 +181,62 @@
             </div>
           </div>
 
-          <!-- Grup Utama 2 -->
+          <!-- GROUP UTAMA 2 -->
           <div class="bg-white rounded-lg shadow-sm p-6">
-            <p class="text-xs font-semibold">
-              Group Utama Pengembangan/Pengadaan <span class="text-red-500">*</span>
-            </p>
-            <div class="mt-1 border-2 border-dashed border-[#BFD2FF] px-4 py-3 rounded-lg space-y-1 text-sm bg-white">
+            <p class="text-xs font-semibold">Group Utama 2 <span class="text-red-500">*</span></p>
+            <div class="border-2 border-dashed px-4 py-3 rounded-lg text-sm">
               @php $oldG2 = old('group_utama_2', []); @endphp
-              @foreach([
-                'IT Architecture & Governance',
-                'Corporate Service',
-                'Application Management Management',
-                'Digital Business',
-                'Business Intelligence, Analytics & Regulatory',
-                'Backend Management',
-                'Helpdesk & Support',
-                'Operation Management DC',
-                'IT Security',
-              ] as $opt)
+              @foreach(['IT Architecture & Governance','Corporate Service','Application Management Management','Digital Business','Business Intelligence, Analytics & Regulatory','Backend Management','Helpdesk & Support','Operation Management DC','IT Security'] as $opt)
                 <label class="flex gap-2">
-                  <input type="checkbox" name="group_utama_2[]" value="{{ $opt }}" class="mt-0.5"
-                    {{ in_array($opt, $oldG2) ? 'checked' : '' }}>
+                  <input type="checkbox" name="group_utama_2[]" value="{{ $opt }}" {{ in_array($opt,$oldG2)?'checked':'' }}>
                   {{ $opt }}
                 </label>
               @endforeach
             </div>
+
+            {{-- ✅ FIX VALIDASI --}}
+            @error('group_utama_2')
+<p class="text-xs text-red-600 mt-2">{{ $message }}</p>
+@enderror
+@error('group_utama_2.0')
+<p class="text-xs text-red-600 mt-2">{{ $message }}</p>
+@enderror
           </div>
 
           <!-- Penyusun -->
-          <div class="bg-white rounded-lg shadow-sm p-6">
-            <p class="text-xs font-semibold">
-              Nama Lengkap Penyusun Dokumen Pengembangan/Pengadaan
-              <span class="text-red-500">*</span>
-            </p>
+          <!-- Penyusun -->
+<div class="bg-white rounded-lg shadow-sm p-6">
+  <p class="text-xs font-semibold">
+    Nama Lengkap Penyusun Dokumen Pengembangan/Pengadaan
+    <span class="text-red-500">*</span>
+  </p>
 
-            <div id="compilerWrapper" class="space-y-2">
-              <div id="compilerForm" class="space-y-2"></div>
+  <div id="compilerWrapper" class="space-y-2">
+    <div id="compilerForm" class="space-y-2"></div>
 
-              @php $oldComp = old('compiler_names', []); @endphp
-              @foreach($oldComp as $nm)
-                <input type="hidden" name="compiler_names[]" value="{{ $nm }}">
-                <div class="rounded-md border bg-white px-4 py-2 text-gray-800">{{ $nm }}</div>
-              @endforeach
+    @php $oldComp = old('compiler_names', []); @endphp
+    @foreach($oldComp as $nm)
+      <input type="hidden" name="compiler_names[]" value="{{ $nm }}">
+      <div class="rounded-md border bg-white px-4 py-2 text-gray-800">
+        {{ $nm }}
+      </div>
+    @endforeach
 
-              <button id="addRow" type="button"
-                      class="w-full rounded-md border bg-white px-4 py-2 text-gray-800 flex items-center gap-2">
-                <span class="w-6 h-6 rounded-full border flex items-center justify-center text-xl leading-none">+</span>
-                Tambah Penyusun
-              </button>
-            </div>
-          </div>
+    <button id="addRow" type="button"
+      class="w-full rounded-md border bg-white px-4 py-2 text-gray-800 flex items-center gap-2">
+      <span class="w-6 h-6 rounded-full border flex items-center justify-center text-xl leading-none">+</span>
+      Tambah Penyusun
+    </button>
+  </div>
+
+  {{-- ✅ INI YANG KURANG DARI TADI --}}
+  @error('compiler_names')
+<p class="text-xs text-red-600 mt-2">{{ $message }}</p>
+@enderror
+@error('compiler_names.0')
+<p class="text-xs text-red-600 mt-2">{{ $message }}</p>
+@enderror
+</div>
 
           <!-- RBB USERS -->
           <div class="bg-white rounded-lg shadow-sm p-6">
@@ -244,16 +249,20 @@
             <input type="text" name="rbb_users[kode]"
               class="rbb-code w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#407BFF]"
               placeholder="0.0.0.0" inputmode="numeric" value="{{ old('rbb_users.kode') }}">
+              @error('rbb_users.kode')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
+
 
             <label class="block text-[11px] mt-3">Nama Program Kerja</label>
             <input type="text" name="rbb_users[nama]"
               class="w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#407BFF]"
               value="{{ old('rbb_users.nama') }}">
-
+              @error('rbb_users.nama')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
+            
             <label class="block text-[11px] mt-3">Anggaran</label>
             <input type="number" name="rbb_users[anggaran]"
               class="w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#407BFF]"
               value="{{ old('rbb_users.anggaran') }}">
+              @error('rbb_users.anggaran')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
           </div>
 
           <!-- IT TECH -->
@@ -267,22 +276,26 @@
             <input type="text" name="rbb_it[kode]"
               class="rbb-code w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#407BFF]"
               placeholder="0.0.0.0" inputmode="numeric" value="{{ old('rbb_it.kode') }}">
+              @error('rbb_it.kode')<p class="text-xs text-red-600">{{ $message }}</p>@enderror  
 
             <label class="block text-[11px] mt-3">Nama Program Kerja</label>
             <input type="text" name="rbb_it[nama]"
               class="w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#407BFF]"
               value="{{ old('rbb_it.nama') }}">
+            @error('rbb_it.nama')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
 
             <label class="block text-[11px] mt-3">Bundling Anggaran</label>
-            <input type="number" name="rbb_it[bundling]"
+            <input type="number" name="rbb_it[bundling_anggaran]"
               class="w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#407BFF]"
-              value="{{ old('rbb_it.bundling') }}">
+              value="{{ old('rbb_it.bundling_anggaran') }}">
+                @error('rbb_it.bundling')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
 
             <label class="block text-[11px] mt-3">Anggaran</label>
             <input type="number" name="rbb_it[anggaran]"
               class="w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#407BFF]"
               value="{{ old('rbb_it.anggaran') }}">
-          </div>
+                @error('rbb_it.kode')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
+            </div>
 
           <!-- FOOTER SIGNATURE -->
           <div class="bg-white rounded-lg shadow-sm p-6 text-center text-[11px] text-gray-500">
@@ -303,24 +316,28 @@
       </div>
     </main>
 
-    <!-- POPUP KONFIRMASI (sebelum submit) -->
-    <div id="confirmPopup" class="hidden fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-      <div class="bg-white rounded-xl shadow-lg px-8 py-6 text-center">
-        <p class="text-sm font-medium mb-4">
-          Are You Sure You Want to submit This Project?
-        </p>
-        <div class="flex justify-center gap-4">
-          <button id="confirmYes" type="button"
-            class="px-4 py-1 bg-[#407BFF] text-white rounded-md text-sm hover:bg-[#2d5dd8]">
-            Yes
-          </button>
-          <button id="confirmNo" type="button"
-            class="px-4 py-1 border rounded-md text-sm hover:bg-gray-100">
-            No
-          </button>
-        </div>
-      </div>
+   <!-- ================= POPUP KONFIRMASI ================= -->
+<div id="confirmPopup" class="hidden fixed inset-0 bg-black/30 flex items-center justify-center z-50">
+  <div class="bg-white rounded-xl shadow-lg px-8 py-6 text-center">
+    <p class="text-sm font-medium mb-4">
+      Are You Sure You Want to submit This Project?
+    </p>
+    <div class="flex justify-center gap-4">
+      <button
+  type="button"
+  id="confirmYes"
+  class="px-4 py-1 bg-[#407BFF] text-white rounded-md hover:bg-[#2d5dd8]">
+  Yes
+</button>
+      <button
+        type="button"
+        id="confirmNo"
+        class="px-4 py-1 border rounded-md hover:bg-gray-100">
+        No
+      </button>
     </div>
+  </div>
+</div>
 
     <!-- SCRIPT -->
     <script>
@@ -412,38 +429,38 @@
           e.target.selectionEnd = cursorPos + (newLength - oldLength);
         });
       });
-
-      const projectForm = document.getElementById("projectForm");
-      const confirmPopup = document.getElementById("confirmPopup");
-      let isConfirmed = false;
-
-      if (projectForm) {
-        projectForm.addEventListener("submit", (e) => {
-          if (!isConfirmed) {
-            e.preventDefault();
-            confirmPopup.classList.remove("hidden");
-          }
-        });
-      }
-
-      const confirmYes = document.getElementById("confirmYes");
-      const confirmNo = document.getElementById("confirmNo");
-
-      if (confirmYes) {
-        confirmYes.addEventListener("click", () => {
-          isConfirmed = true;
-          confirmPopup.classList.add("hidden");
-          projectForm.submit();
-        });
-      }
-
-      if (confirmNo) {
-        confirmNo.addEventListener("click", () => {
-          isConfirmed = false;
-          confirmPopup.classList.add("hidden");
-        });
-      }
     </script>
+    <script>
+const projectForm = document.getElementById("projectForm");
+const confirmPopup = document.getElementById("confirmPopup");
+const confirmYes = document.getElementById("confirmYes");
+const confirmNo = document.getElementById("confirmNo");
+
+let isConfirmed = false;
+
+// Submit pertama → tampilkan popup
+projectForm.addEventListener("submit", function (e) {
+  if (!isConfirmed) {
+    e.preventDefault();
+    confirmPopup.classList.remove("hidden");
+  }
+});
+
+// Klik YES → submit asli (INI KUNCI UTAMA)
+confirmYes.addEventListener("click", function () {
+  isConfirmed = true;
+  confirmPopup.classList.add("hidden");
+
+  // 🔥 SUBMIT PAKSA, TANPA EVENT LAGI
+  projectForm.submit();
+});
+
+// Klik NO
+confirmNo.addEventListener("click", function () {
+  confirmPopup.classList.add("hidden");
+  isConfirmed = false;
+});
+</script>
   </body>
 </html>
 @endsection

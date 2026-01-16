@@ -180,7 +180,7 @@
                 <input type="text" id="contactName" readonly
                   value="{{ $wmName }}"
                   class="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm text-gray-900 bg-gray-50">
-                <input type="hidden" name="contact[name]" value="{{ $wmName }}">
+                <input type="hidden" name="contact[nama]" value="{{ $wmName }}">
               </div>
 
               <div>
@@ -188,7 +188,7 @@
                 <input type="tel" id="contactPhone" readonly
                   value="{{ $wmPhone }}"
                   class="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm text-gray-900 bg-gray-50">
-                <input type="hidden" name="contact[phone]" value="{{ $wmPhone }}">
+                <input type="hidden" name="contact[hp]" value="{{ $wmPhone }}">
               </div>
 
               <div>
@@ -281,9 +281,9 @@
               value="{{ $rbbIt['nama'] ?? '' }}">
 
             <label class="block text-[11px] mt-3">Bundling Anggaran</label>
-            <input type="number" name="rbb_it[bundling]"
-              class="w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#407BFF]"
-              value="{{ $rbbIt['bundling'] ?? '' }}">
+<input type="number" name="rbb_it[bundling_anggaran]"
+  class="w-full border px-4 py-2.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#407BFF]"
+  value="{{ $rbbIt['bundling_anggaran'] ?? '' }}">
 
             <label class="block text-[11px] mt-3">Anggaran</label>
             <input type="number" name="rbb_it[anggaran]"

@@ -18,11 +18,11 @@
 </head>
 
 @php
-  $meta = (array)($meta ?? []);
+  $meta = (array) ($pengajuan->meta ?? []);
   $iag  = (array) data_get($meta, 'iag', []);
 
-  $contactName  = data_get($meta, 'contact.name', '-');
-  $contactPhone = data_get($meta, 'contact.phone', '-');
+  $contactName  = data_get($meta, 'contact.nama', '-');
+  $contactPhone = data_get($meta, 'contact.hp', '-');
   $contactEmail = data_get($meta, 'contact.email', '-');
 
   $groups1 = (array) data_get($meta, 'group_utama', []);
@@ -32,9 +32,10 @@
   $rbbUsers = (array) data_get($meta,'rbb_users', []);
   $rbbIt    = (array) data_get($meta,'rbb_it', []);
 
-  $itagSaved = old('iag.itag_list', $iag['it_arch_governance'] ?? []);
-  $itwSaved  = old('iag.itw_list', $iag['it_technical_writer'] ?? []);
-  $karSaved  = old('iag.karakter', $iag['karakteristik'] ?? []);
+$itagSaved = old('iag.itag_list', $iag['itag_list'] ?? []);
+$itwSaved  = old('iag.itw_list', $iag['itw_list'] ?? []);
+$karSaved  = old('iag.karakter', $iag['karakter'] ?? []);
+
 
   $itagOptions = [
     'Ipmawan Sukarpiana',
@@ -79,7 +80,7 @@
         <polyline points="15 18 9 12 15 6"></polyline>
       </svg>
     </button>
-    <h1 class="text-lg font-medium">FORMULIR REGISTRASI PROJECT</h1>
+    <h1 class="text-lg font-semibold text-center">FORMULIR REGISTRASI PROJECT</h1>
   </header>
 
   <main class="max-w-2xl mx-auto px-4 py-6 pb-24 space-y-8">

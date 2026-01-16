@@ -162,6 +162,8 @@
     </div>
   </section>
 
+
+  
   {{-- APPROVED TABLE --}}
   <section class="bg-white rounded-lg overflow-hidden border border-gray-200 mb-8">
     <div class="overflow-x-auto">
@@ -177,29 +179,82 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-          @forelse(($approvedList ?? []) as $p)
-            @php $t = data_get($p->meta,'tipe','-'); @endphp
-            <tr class="hover:bg-gray-50">
-              <td class="px-6 py-4 text-sm text-gray-900">{{ $p->id }}</td>
-              <td class="px-6 py-4 text-sm text-gray-900">{{ $p->judul ?? '-' }}</td>
-              <td class="px-6 py-4 text-sm text-gray-900">{{ $p->maker?->name ?? '-' }}</td>
-              <td class="px-6 py-4 text-sm text-gray-900">{{ $typeLabel($t) }}</td>
-              <td class="px-6 py-4 text-sm text-gray-900">{{ optional($p->created_at)->format('Y-m-d') }}</td>
-              <td class="px-6 py-4">
-                <span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-medium border {{ $badgeClass($p->status?->code) }}">
-                  {{ $statusText($p) }}
-                </span>
-              </td>
-            </tr>
-          @empty
-            <tr>
-              <td colspan="6" class="px-6 py-10 text-center text-slate-500">Belum ada data approved.</td>
-            </tr>
-          @endforelse
-        </tbody>
+  @forelse($approvedList as $p)
+  
+    @php $t = data_get($p->meta,'tipe','-'); @endphp
+    <tr class="hover:bg-gray-50">
+      <td class="px-6 py-4 text-sm text-gray-900">{{ $p->id }}</td>
+      <td class="px-6 py-4 text-sm text-gray-900">{{ $p->judul ?? '-' }}</td>
+      <td class="px-6 py-4 text-sm text-gray-900">{{ $p->maker?->name ?? '-' }}</td>
+      <td class="px-6 py-4 text-sm text-gray-900">{{ $typeLabel($t) }}</td>
+      <td class="px-6 py-4 text-sm text-gray-900">{{ optional($p->created_at)->format('Y-m-d') }}</td>
+      <td class="px-6 py-4">
+        <span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-medium border {{ $badgeClass($p->status?->code) }}">
+          {{ $statusText($p) }}
+        </span>
+      </td>
+    </tr>
+  @empty
+    <tr>
+      <td colspan="6" class="px-6 py-10 text-center text-slate-500">
+        Belum ada data approved.
+      </td>
+    </tr>
+  @endforelse
+</tbody>
       </table>
     </div>
   </section>
+  {{-- Pagination UI (REAL paginate, DESIGN TETAP) --}}
+@if ($approvedList instanceof \Illuminate\Pagination\LengthAwarePaginator && $approvedList->lastPage() > 1)
+  <div class="flex items-center justify-center gap-2 py-8">
+
+    {{-- PREVIOUS --}}
+    @if ($approvedList->onFirstPage())
+      <button type="button"
+        class="px-4 py-2 border border-gray-300 rounded-lg text-gray-400 bg-white cursor-not-allowed">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+    @else
+      <a href="{{ $approvedList->previousPageUrl() }}"
+         class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </a>
+    @endif
+
+    {{-- PAGE INFO --}}
+    <span class="px-4 py-2 text-sm text-gray-700">
+      {{ $approvedList->currentPage() }}/{{ $approvedList->lastPage() }}
+    </span>
+
+    {{-- NEXT --}}
+    @if ($approvedList->hasMorePages())
+      <a href="{{ $approvedList->nextPageUrl() }}"
+         class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </a>
+    @else
+      <button type="button"
+        class="px-4 py-2 border border-gray-300 rounded-lg text-gray-400 bg-white cursor-not-allowed">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    @endif
+
+  </div>
+@endif
+
 
   {{-- REJECTED TABLE --}}
   <section class="bg-white rounded-lg overflow-hidden border border-gray-200 mb-8">
@@ -215,45 +270,82 @@
             <th class="px-6 py-4 text-left text-sm font-medium text-white">Status</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-200">
-          @forelse(($rejectedList ?? []) as $p)
-            @php $t = data_get($p->meta,'tipe','-'); @endphp
-            <tr class="hover:bg-gray-50">
-              <td class="px-6 py-4 text-sm text-gray-900">{{ $p->id }}</td>
-              <td class="px-6 py-4 text-sm text-gray-900">{{ $p->judul ?? '-' }}</td>
-              <td class="px-6 py-4 text-sm text-gray-900">{{ $p->maker?->name ?? '-' }}</td>
-              <td class="px-6 py-4 text-sm text-gray-900">{{ $typeLabel($t) }}</td>
-              <td class="px-6 py-4 text-sm text-gray-900">{{ optional($p->created_at)->format('Y-m-d') }}</td>
-              <td class="px-6 py-4">
-                <span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-medium border {{ $badgeClass($p->status?->code) }}">
-                  {{ $statusText($p) }}
-                </span>
-              </td>
-            </tr>
-          @empty
-            <tr>
-              <td colspan="6" class="px-6 py-10 text-center text-slate-500">Belum ada data rejected.</td>
-            </tr>
-          @endforelse
-        </tbody>
+       <tbody class="divide-y divide-gray-200">
+  @forelse($rejectedList as $p)
+    @php $t = data_get($p->meta,'tipe','-'); @endphp
+    <tr class="hover:bg-gray-50">
+      <td class="px-6 py-4 text-sm text-gray-900">{{ $p->id }}</td>
+      <td class="px-6 py-4 text-sm text-gray-900">{{ $p->judul ?? '-' }}</td>
+      <td class="px-6 py-4 text-sm text-gray-900">{{ $p->maker?->name ?? '-' }}</td>
+      <td class="px-6 py-4 text-sm text-gray-900">{{ $typeLabel($t) }}</td>
+      <td class="px-6 py-4 text-sm text-gray-900">{{ optional($p->created_at)->format('Y-m-d') }}</td>
+      <td class="px-6 py-4">
+        <span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-medium border {{ $badgeClass($p->status?->code) }}">
+          {{ $statusText($p) }}
+        </span>
+      </td>
+    </tr>
+  @empty
+    <tr>
+      <td colspan="6" class="px-6 py-10 text-center text-slate-500">
+        Belum ada data rejected.
+      </td>
+    </tr>
+  @endforelse
+</tbody>
       </table>
     </div>
   </section>
-
-  {{-- Pagination UI (tetap tampil sesuai desain kamu; kalau mau real paginate nanti kita rapihin) --}}
+  {{-- Pagination REJECTED (REAL paginate, DESIGN TETAP) --}}
+@if ($rejectedList instanceof \Illuminate\Pagination\LengthAwarePaginator && $rejectedList->lastPage() > 1)
   <div class="flex items-center justify-center gap-2 py-8">
-    <button type="button" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-        <polyline points="15 18 9 12 15 6"></polyline>
-      </svg>
-    </button>
-    <span class="px-4 py-2 text-sm text-gray-700">1/10</span>
-    <button type="button" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-        <polyline points="9 18 15 12 9 6"></polyline>
-      </svg>
-    </button>
+
+    {{-- PREVIOUS --}}
+    @if ($rejectedList->onFirstPage())
+      <button type="button"
+        class="px-4 py-2 border border-gray-300 rounded-lg text-gray-400 bg-white cursor-not-allowed">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+    @else
+      <a href="{{ $rejectedList->previousPageUrl() }}"
+         class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </a>
+    @endif
+
+    {{-- PAGE INFO --}}
+    <span class="px-4 py-2 text-sm text-gray-700">
+      {{ $rejectedList->currentPage() }}/{{ $rejectedList->lastPage() }}
+    </span>
+
+    {{-- NEXT --}}
+    @if ($rejectedList->hasMorePages())
+      <a href="{{ $rejectedList->nextPageUrl() }}"
+         class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </a>
+    @else
+      <button type="button"
+        class="px-4 py-2 border border-gray-300 rounded-lg text-gray-400 bg-white cursor-not-allowed">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    @endif
+
   </div>
+@endif
+  
 
 </div>
 @endsection

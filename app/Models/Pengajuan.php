@@ -2,32 +2,35 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Pengajuan extends Model
 {
+    use HasFactory;
+
     protected $table = 'pengajuans';
 
     protected $fillable = [
         'judul',
         'deskripsi',
-        'maker_id',
         'status_id',
+        'maker_id',
         'meta',
+        'rejection_reason',
     ];
 
     protected $casts = [
         'meta' => 'array',
     ];
 
-    public function maker(): BelongsTo
+    public function status()
     {
-        return $this->belongsTo(User::class, 'maker_id');
+        return $this->belongsTo(Status::class);
     }
 
-    public function status(): BelongsTo
+    public function maker()
     {
-        return $this->belongsTo(Status::class, 'status_id');
+        return $this->belongsTo(User::class, 'maker_id');
     }
 }

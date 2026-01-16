@@ -61,10 +61,8 @@
 
   $g1 = data_get($meta,'group_utama',[]);
   $g2 = data_get($meta,'group_utama_2',[]);
-
   if (is_string($g1)) $g1 = array_filter(array_map('trim', explode(',', $g1)));
   if (is_string($g2)) $g2 = array_filter(array_map('trim', explode(',', $g2)));
-
   if (!is_array($g1)) $g1 = [];
   if (!is_array($g2)) $g2 = [];
 
@@ -77,15 +75,37 @@
   $rbbIt = data_get($meta,'rbb_it',[]);
   if (!is_array($rbbIt)) $rbbIt = [];
 
-  // ✅ DATA IAG (Form Tambahan)
-  $iag = data_get($meta, 'iag', []);
-  if (!is_array($iag)) $iag = [];
+  // ✅ IAG
+  $iag = (array) data_get($meta,'iag',[]);
+  $iagKode = data_get($iag,'kode_project','');
+  $iagNama = data_get($iag,'nama_project','');
 
-  $itag = (array) data_get($iag, 'it_arch_governance', []);
-  $itw  = (array) data_get($iag, 'it_technical_writer', []);
-  $kar  = (array) data_get($iag, 'karakteristik', []);
+$itag = data_get($iag,'it_arch_governance');
+if (empty($itag)) {
+    $itag = data_get($iag,'itag_list', []);
+}
 
-  // watermark contact tetap
+$itw = data_get($iag,'it_technical_writer');
+if (empty($itw)) {
+    $itw = data_get($iag,'itw_list', []);
+}
+
+$kar = data_get($iag,'karakteristik');
+if (empty($kar)) {
+    $kar = data_get($iag,'karakter', []);
+}
+
+
+  if (is_string($itag)) $itag = array_filter(array_map('trim', explode(',', $itag)));
+  if (is_string($itw))  $itw  = array_filter(array_map('trim', explode(',', $itw)));
+  if (is_string($kar))  $kar  = array_filter(array_map('trim', explode(',', $kar)));
+
+  if (!is_array($itag)) $itag = [];
+  if (!is_array($itw))  $itw  = [];
+  if (!is_array($kar))  $kar  = [];
+
+  $hasIag = (trim($iagKode) !== '') || (trim($iagNama) !== '') || count($itag) || count($itw) || count($kar);
+
   $wm = [
     'name' => 'Sani Hardiansa',
     'phone' => '+62 812-2005-343',
@@ -101,7 +121,6 @@
     Status: <span class="badge">{{ $statusText }}</span>
   </div>
 
-  {{-- ===================== DATA PROJECT ===================== --}}
   <div class="section">
     <div class="section-h">Data Project</div>
     <div class="section-b">
@@ -136,9 +155,7 @@
         <div class="box">
           @if(count($g1))
             <ul>
-              @foreach($g1 as $v)
-                <li>{{ $v }}</li>
-              @endforeach
+              @foreach($g1 as $v)<li>{{ $v }}</li>@endforeach
             </ul>
           @else
             <span class="small">-</span>
@@ -173,9 +190,7 @@
         <div class="box">
           @if(count($g2))
             <ul>
-              @foreach($g2 as $v)
-                <li>{{ $v }}</li>
-              @endforeach
+              @foreach($g2 as $v)<li>{{ $v }}</li>@endforeach
             </ul>
           @else
             <span class="small">-</span>
@@ -188,9 +203,7 @@
         <div class="box">
           @if(count($comp))
             <ul>
-              @foreach($comp as $v)
-                <li>{{ $v }}</li>
-              @endforeach
+              @foreach($comp as $v)<li>{{ $v }}</li>@endforeach
             </ul>
           @else
             <span class="small">-</span>
@@ -201,7 +214,6 @@
     </div>
   </div>
 
-  {{-- ===================== RBB USERS ===================== --}}
   <div class="section">
     <div class="section-h">Program Kerja & Anggaran di RBB Divisi Users</div>
     <div class="section-b">
@@ -224,7 +236,6 @@
     </div>
   </div>
 
-  {{-- ===================== RBB IT ===================== --}}
   <div class="section">
     <div class="section-h">Program Kerja & Anggaran di RBB Divisi Information Technology</div>
     <div class="section-b">
@@ -251,90 +262,45 @@
     </div>
   </div>
 
-  {{-- ===================== FORM TAMBAHAN IAG ===================== --}}
-  @if(
-    data_get($iag,'kode_project') ||
-    data_get($iag,'nama_project') ||
-    count($itag) ||
-    count($itw) ||
-    count($kar)
-  )
-    <div class="section">
-      <div class="section-h">Form Tambahan IAG</div>
-      <div class="section-b">
+{{-- ================= IAG ================= --}}
+  @if($hasIag)
+  <div class="section">
+    <div class="section-h">Form Tambahan IAG</div>
+    <div class="section-b">
 
-        <div class="row">
-          <table class="grid2">
-            <tr>
-              <td>
-                <div class="label">Kode Project</div>
-                <div class="box">{{ data_get($iag,'kode_project','-') ?: '-' }}</div>
-              </td>
-              <td>
-                <div class="label">Nama Project</div>
-                <div class="box">{{ data_get($iag,'nama_project','-') ?: '-' }}</div>
-              </td>
-            </tr>
-          </table>
+      <table class="grid2">
+        <tr>
+          <td><div class="label">Kode Project</div><div class="box">{{ $iagKode }}</div></td>
+          <td><div class="label">Nama Project</div><div class="box">{{ $iagNama }}</div></td>
+        </tr>
+      </table>
+
+      <div class="row">
+        <div class="label">IT Architecture Governance</div>
+        <div class="box">
+          @if(count($itag)) <ul>@foreach($itag as $v)<li>{{ trim($v) }}</li>@endforeach</ul>
+          @else <span class="small">-</span> @endif
         </div>
-
-        <div class="row">
-          <div class="label">IT Architecture Governance</div>
-          <div class="box">
-            @if(count($itag))
-              <ul>
-                @foreach($itag as $v)
-                  <li>{{ $v }}</li>
-                @endforeach
-              </ul>
-            @else
-              <span class="small">-</span>
-            @endif
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="label">IT Technical Writer</div>
-          <div class="box">
-            @if(count($itw))
-              <ul>
-                @foreach($itw as $v)
-                  <li>{{ $v }}</li>
-                @endforeach
-              </ul>
-            @else
-              <span class="small">-</span>
-            @endif
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="label">Karakteristik</div>
-          <div class="box">
-            @if(count($kar))
-              <ul>
-                @foreach($kar as $v)
-                  <li>{{ $v }}</li>
-                @endforeach
-              </ul>
-            @else
-              <span class="small">-</span>
-            @endif
-          </div>
-        </div>
-
       </div>
-    </div>
-  @endif
 
-  {{-- ===================== ALASAN REJECT ===================== --}}
-  @if(!empty($p?->rejection_reason))
-    <div class="section">
-      <div class="section-h">Alasan Reject</div>
-      <div class="section-b">
-        <div class="box">{{ $p->rejection_reason }}</div>
+      <div class="row">
+        <div class="label">IT Technical Writer</div>
+        <div class="box">
+          @if(count($itw)) <ul>@foreach($itw as $v)<li>{{ trim($v) }}</li>@endforeach</ul>
+          @else <span class="small">-</span> @endif
+        </div>
       </div>
+
+      <div class="row">
+        <div class="label">Karakteristik</div>
+        <div class="box">
+          @if(count($kar)) <ul>@foreach($kar as $v)<li>{{ trim($v) }}</li>@endforeach</ul>
+          @else <span class="small">-</span> @endif
+        </div>
+      </div>
+
     </div>
+  </div>
   @endif
 
 </div>

@@ -3,7 +3,9 @@
 @section('content')
 @php
   $user = auth()->user();
-  $roleId = (int)($user?->role_id ?? 0);
+ $roleId = (int) data_get($user, 'role_id', 0);
+
+
 
   $meta  = (array)($pengajuan->meta ?? []);
   $steps = (array) data_get($meta, 'decision.steps', []);
@@ -17,9 +19,9 @@
     if ($lastApproveBy && $lastRejectBy) break;
   }
 
-  $contactName  = data_get($meta, 'contact.name', '-');
-  $contactPhone = data_get($meta, 'contact.phone', '-');
-  $contactEmail = data_get($meta, 'contact.email', '-');
+  $contactName  = data_get($meta, 'contact.nama');
+  $contactPhone = data_get($meta, 'contact.hp');
+  $contactEmail = data_get($meta, 'contact.email');
 
   $g1 = data_get($meta,'group_utama', []);
   $g2 = data_get($meta,'group_utama_2', []);
@@ -62,10 +64,9 @@
 
   $iagKode  = data_get($iag, 'kode_project');
   $iagNama  = data_get($iag, 'nama_project');
-  $itagList = (array) data_get($iag, 'it_arch_governance', []);
-  $itwList  = (array) data_get($iag, 'it_technical_writer', []);
-  $karList  = (array) data_get($iag, 'karakteristik', []);
-
+$itagList = (array) data_get($iag, 'itag_list', []);
+$itwList  = (array) data_get($iag, 'itw_list', []);
+$karList  = (array) data_get($iag, 'karakter', []);
   $hasIagForm = !empty($iagKode) || !empty($iagNama) || count($itagList) || count($itwList) || count($karList);
 @endphp
 
