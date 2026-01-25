@@ -298,20 +298,18 @@
             </div>
 
           <!-- FOOTER SIGNATURE -->
-          <div class="bg-white rounded-lg shadow-sm p-6 text-center text-[11px] text-gray-500">
-            <p>Bandung, Juni 2025</p>
-            <p>Diajukan oleh</p>
-            <p class="font-semibold">Group Head Utama Pengadaan</p>
-            <div class="w-64 h-32 mx-auto bg-[#BFD2FF] rounded-md mt-2"></div>
-          </div>
-
-          <!-- SUBMIT BUTTON -->
-          <div class="flex justify-center">
+           <div class="flex justify-left">
             <button type="submit"
               class="px-8 py-2 bg-[#407BFF] text-white rounded-md text-sm font-medium hover:bg-[#2d5dd8]">
               Submit
             </button>
           </div>
+          <div class="bg-white rounded-lg shadow-sm p-6 text-center text-[11px] text-gray-500">
+            <p>Bandung, Juni 2025</p>
+            <p>Diajukan oleh</p>
+            <p class="font-semibold">Group Head Utama Pengadaan</p>
+          </div>
+
         </form>
       </div>
     </main>

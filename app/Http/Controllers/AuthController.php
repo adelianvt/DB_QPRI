@@ -16,7 +16,6 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // form kamu pakai name="login"
         $identifier = trim((string) $request->input('login', ''));
         $password   = (string) $request->input('password', '');
 
@@ -32,9 +31,9 @@ class AuthController extends Controller
             ]);
         }
 
-        // kandidat kolom login yang mungkin ada di tabel users
+    
         $candidates = [
-            'user_id',      // ✅ dari screenshot kamu: ada "user_id" = "B316"
+            'user_id',    
             'nip',
             'username',
             'nik',

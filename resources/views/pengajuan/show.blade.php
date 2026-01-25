@@ -188,7 +188,7 @@ $karList  = (array) data_get($iag, 'karakter', []);
         <div class="p-4 space-y-2 bg-gray-50">
           <div><span class="font-semibold">Kode:</span> {{ data_get($rbbIt,'kode','-') }}</div>
           <div><span class="font-semibold">Nama:</span> {{ data_get($rbbIt,'nama','-') }}</div>
-          <div><span class="font-semibold">Bundling:</span> {{ data_get($rbbIt,'bundling','-') }}</div>
+          <div><span class="font-semibold">Bundling:</span> {{ data_get($rbbIt,'bundling_anggaran','-') }}</div>
           <div><span class="font-semibold">Anggaran:</span> {{ data_get($rbbIt,'anggaran','-') }}</div>
         </div>
       </div>
@@ -280,23 +280,26 @@ $karList  = (array) data_get($iag, 'karakter', []);
       </a>
 
       @if($canApprove)
-        <form method="POST" action="{{ route('pengajuans.approve', $pengajuan->id) }}"
-              onsubmit="return confirm('Apakah anda yakin ingin meng-approve formulir/project ini?')">
-          @csrf
-          <button type="submit"
-                  class="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 text-sm">
-            Approve
-          </button>
-        </form>
-      @endif
+  <button type="button" id="btnApprove"
+    class="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 text-sm">
+    Approve
+  </button>
+@endif
 
-      @if($canReject)
-        <button type="button"
-                onclick="document.getElementById('rejectBox').classList.toggle('hidden')"
-                class="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 text-sm">
-          Reject
-        </button>
-      @endif
+@if($canReject)
+  <button type="button" id="btnReject"
+    class="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 text-sm">
+    Reject
+  </button>
+@endif
+      <form id="approvalForm" method="POST">
+  @csrf
+  <input type="hidden" name="rejection_reason" id="rejectReasonInput">
+</form>
+  @csrf
+  <input type="hidden" name="rejection_reason" id="rejectReasonInput">
+</form>
+
     </div>
 
     {{-- ✅ DOWNLOAD BUTTON --}}
@@ -340,4 +343,112 @@ $karList  = (array) data_get($iag, 'karakter', []);
     </div>
   @endif
 </div>
+<div id="approvePopup"
+ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+  <div class="bg-white rounded-xl shadow-lg px-8 py-6 text-center w-[380px]">
+    <div class="mx-auto w-12 h-12 flex items-center justify-center rounded-full bg-green-100 mb-4">
+      ✅
+    </div>
+
+    <p class="text-sm font-medium mb-4">
+      Apakah anda yakin ingin meng-approve project ini?
+    </p>
+
+    <div class="flex justify-center gap-4">
+      <button id="cancelApprove" class="px-4 py-1 border rounded-md text-sm">
+        Cancel
+      </button>
+      <button id="confirmApprove"
+        class="px-4 py-1 bg-green-600 text-white rounded-md text-sm">
+        Yes, Approve
+      </button>
+    </div>
+  </div>
+</div>
+<div id="rejectPopup"
+ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+  <div class="bg-white rounded-xl shadow-lg px-8 py-6 text-center w-[420px]">
+    <div class="mx-auto w-12 h-12 flex items-center justify-center rounded-full bg-red-100 mb-3">
+      ❌
+    </div>
+
+    <p class="text-sm font-medium mb-3">
+      Apakah anda yakin ingin me-reject project ini?
+    </p>
+
+    <textarea id="rejectReason"
+      rows="4" required
+      class="w-full border rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-red-500"
+      placeholder="Masukkan alasan reject..."></textarea>
+
+    <div class="flex justify-center gap-4 mt-4">
+      <button id="cancelReject" class="px-4 py-1 border rounded-md text-sm">
+        Cancel
+      </button>
+      <button id="confirmReject"
+        class="px-4 py-1 bg-red-600 text-white rounded-md text-sm">
+        Yes, Reject
+      </button>
+    </div>
+  </div>
+</div>
+<script>
+  const approvePopup = document.getElementById('approvePopup');
+  const rejectPopup  = document.getElementById('rejectPopup');
+
+  const btnApprove   = document.getElementById('btnApprove');
+  const btnReject    = document.getElementById('btnReject');
+
+  const confirmApprove = document.getElementById('confirmApprove');
+  const cancelApprove  = document.getElementById('cancelApprove');
+
+  const confirmReject = document.getElementById('confirmReject');
+  const cancelReject  = document.getElementById('cancelReject');
+
+  const approvalForm = document.getElementById('approvalForm');
+  const rejectReasonInput = document.getElementById('rejectReason');
+  const hiddenRejectInput = document.getElementById('rejectReasonInput');
+
+  // =====================
+  // OPEN POPUP
+  // =====================
+  if (btnApprove) {
+    btnApprove.onclick = () => approvePopup.classList.remove('hidden');
+  }
+
+  if (btnReject) {
+    btnReject.onclick = () => rejectPopup.classList.remove('hidden');
+  }
+
+  // =====================
+  // CANCEL
+  // =====================
+  cancelApprove.onclick = () => approvePopup.classList.add('hidden');
+  cancelReject.onclick  = () => rejectPopup.classList.add('hidden');
+
+  // =====================
+  // CONFIRM APPROVE
+  // =====================
+  confirmApprove.onclick = () => {
+    approvalForm.action = "{{ route('pengajuans.approve', $pengajuan->id) }}";
+    approvalForm.submit();
+  };
+
+  // =====================
+  // CONFIRM REJECT
+  // =====================
+  confirmReject.onclick = () => {
+    if (!rejectReasonInput.value.trim()) {
+      alert('Alasan reject wajib diisi');
+      return;
+    }
+
+    hiddenRejectInput.value = rejectReasonInput.value;
+    approvalForm.action = "{{ route('pengajuans.reject', $pengajuan->id) }}";
+    approvalForm.submit();
+  };
+</script>
+
 @endsection

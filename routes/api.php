@@ -14,3 +14,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/pengajuans', [PengajuanApiController::class, 'index']);
     Route::post('/pengajuans', [PengajuanApiController::class, 'store']);
 });
+

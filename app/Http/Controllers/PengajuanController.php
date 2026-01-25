@@ -183,7 +183,7 @@ class PengajuanController extends Controller
         'compiler_names' => 'required|array|min:1',
         'compiler_names.*' => 'required|string',
 
-        // CONTACT PERSON (WATERMARK TETAP DIVALIDASI)
+        // CONTACT PERSON (WATERMARK)
         'contact.nama' => 'required|string',
         'contact.hp' => 'required|string',
         'contact.email' => 'required|email',
